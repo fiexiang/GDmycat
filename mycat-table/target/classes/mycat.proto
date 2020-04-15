@@ -1,0 +1,21 @@
+syntax = "proto3";//指定语法
+
+option java_multiple_files = true; //配置多目录
+option java_package = "io.grpc.wyq.mycat"; //配置生成包路径
+option java_outer_classname = "MycatProto";  //配置输出类
+option objc_class_prefix = "WYQ";
+
+package helloworld;
+
+service Mycat {    //定义服务名
+       rpc addTable (MycatRequest) returns (MycatReply) {} //服务方法名
+       rpc delTable (MycatRequest) returns (MycatReply) {} //服务方法名
+}
+
+message MycatRequest {  //定义请求参数
+       string name = 1;
+}
+
+message MycatReply {   //定义返回参数
+       string message = 1;
+}
