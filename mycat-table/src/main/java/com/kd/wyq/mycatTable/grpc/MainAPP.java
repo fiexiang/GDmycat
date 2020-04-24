@@ -9,13 +9,14 @@ public class MainAPP {
 
         MycatServer server = new MycatServer();
 
-        /*
-        String commond = args[0];
+            /*
+            String commond = args[0];
 
-        if (commond.equals("start"))
-            server.start();
-        else if (commond.equals("stop"))
-            server.stop();*/
+            if (commond.equals("start"))
+                server.start();
+            else if (commond.equals("stop"))
+                server.stop();
+            */
 
 
         server.start();

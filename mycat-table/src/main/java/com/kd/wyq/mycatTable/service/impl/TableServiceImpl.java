@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kd.wyq.mycatTable.SshUtil.BackConfigureFile;
 import com.kd.wyq.mycatTable.SshUtil.CopyFile;
 import com.kd.wyq.mycatTable.SshUtil.SshUtil;
+import com.kd.wyq.mycatTable.model.HandleTable;
 import com.kd.wyq.mycatTable.model.Table;
 import com.kd.wyq.mycatTable.service.TableService;
 import com.kd.wyq.mycatTable.utils.Dom4jUtil;
@@ -109,5 +110,49 @@ public class TableServiceImpl implements TableService {
         return null;
     }
 
+    public int handleTable(HandleTable table) {
+        //获取操作表的SQL文
+        String sql = table.getHandle();
+        //获取表对象
+        Table t = table.getTable();
+
+        JDBCUtil jdbcUtil = new JDBCUtil();
+
+        int result = jdbcUtil.DbUpdate(sql,t.getSchemaName(),new Object[]{});
+
+        return result;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+       /* String rrr = "{\"handle\":\"alter table wyq_test drop index `time_index`\",\"table\":{\"name\":\"wyq_test\",\"schemaName\":\"FUJIAN\"}}";
+
+        MycatRequest request = MycatRequest.newBuilder().setParmsList(rrr).build(); //配置请求对象
+
+        Channel channel = ManagedChannelBuilder.forAddress("localhost",15001).usePlaintext(true).build(); //实例化通道，请求完成后会自动关闭
+
+        MycatGrpc.MycatBlockingStub blockingStub = MycatGrpc.newBlockingStub(channel);
+
+        MycatReply response = blockingStub.handleTable(request);//发送请求
+
+        System.out.println(response.getMessage()); //输出结果
+
+        Thread.sleep(5000);*/
+
+        Table table = new Table();
+        table.setSchemaName("FUJIAN");
+        table.setName("wyq_test");
+
+        HandleTable t = new HandleTable();
+        t.setTable(table);
+
+        String handle = "ALTER TABLE wyq_test ADD COLUMN age int(1) COMMENT '年龄'";
+        t.setHandle(handle);
+
+        System.out.println(JSON.toJSONString(t));
+    }
 
 }
+
+
+

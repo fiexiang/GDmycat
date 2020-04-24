@@ -1,5 +1,6 @@
 package com.kd.wyq.mycatTable.service;
 
+import com.kd.wyq.mycatTable.model.HandleTable;
 import com.kd.wyq.mycatTable.model.Table;
 
 public interface TableService {
@@ -12,5 +13,8 @@ public interface TableService {
 
     //修改表
     String updateTable(Table table);
+
+    //针对表字段的操作
+    int handleTable(HandleTable table);
 
 }

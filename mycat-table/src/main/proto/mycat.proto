@@ -10,6 +10,7 @@ package helloworld;
 service Mycat {    //定义服务名
        rpc addTable (MycatRequest) returns (MycatReply) {} //服务方法名
        rpc delTable (MycatRequest) returns (MycatReply) {} //服务方法名
+       rpc handleTable (MycatRequest) returns (MycatReply) {} //服务方法名
 }
 
 message MycatRequest {  //定义请求参数

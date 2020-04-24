@@ -35,11 +35,13 @@ public final class MycatProto {
     java.lang.String[] descriptorData = {
       "\n\013mycat.proto\022\nhelloworld\"!\n\014MycatReques" +
       "t\022\021\n\tparmsList\030\001 \001(\t\"\035\n\nMycatReply\022\017\n\007me" +
-      "ssage\030\001 \001(\t2\207\001\n\005Mycat\022>\n\010addTable\022\030.hell" +
+      "ssage\030\001 \001(\t2\312\001\n\005Mycat\022>\n\010addTable\022\030.hell" +
       "oworld.MycatRequest\032\026.helloworld.MycatRe" +
       "ply\"\000\022>\n\010delTable\022\030.helloworld.MycatRequ" +
-      "est\032\026.helloworld.MycatReply\"\000B\'\n\021io.grpc" +
-      ".wyq.mycatB\nMycatProtoP\001\242\002\003WYQb\006proto3"
+      "est\032\026.helloworld.MycatReply\"\000\022A\n\013handleT" +
+      "able\022\030.helloworld.MycatRequest\032\026.hellowo" +
+      "rld.MycatReply\"\000B\'\n\021io.grpc.wyq.mycatB\nM" +
+      "ycatProtoP\001\242\002\003WYQb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

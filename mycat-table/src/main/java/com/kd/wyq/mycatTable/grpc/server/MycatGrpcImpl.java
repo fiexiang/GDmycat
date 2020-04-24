@@ -2,6 +2,7 @@ package com.kd.wyq.mycatTable.grpc.server;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.kd.wyq.mycatTable.model.HandleTable;
 import com.kd.wyq.mycatTable.model.Table;
 import com.kd.wyq.mycatTable.service.TableService;
 import com.kd.wyq.mycatTable.service.impl.TableServiceImpl;
@@ -39,6 +40,21 @@ public class MycatGrpcImpl extends MycatImplBase {
         Table table = JSON.parseObject(delTableText,Table.class);
 
         String result = tableService.delTable(table);
+
+        MycatReply reply = MycatReply.newBuilder().setMessage(result).build();
+
+        responseObserver.onNext(reply);
+
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void handleTable(MycatRequest request, StreamObserver<MycatReply> responseObserver) {
+        String handleTableText = request.getParmsList();
+
+        HandleTable table = JSON.parseObject(handleTableText,HandleTable.class);
+
+        String result = tableService.handleTable(table) + "";
 
         MycatReply reply = MycatReply.newBuilder().setMessage(result).build();
 

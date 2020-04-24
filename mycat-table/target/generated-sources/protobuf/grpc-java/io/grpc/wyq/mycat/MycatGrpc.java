@@ -48,6 +48,15 @@ public class MycatGrpc {
               "helloworld.Mycat", "delTable"),
           io.grpc.protobuf.ProtoUtils.marshaller(io.grpc.wyq.mycat.MycatRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(io.grpc.wyq.mycat.MycatReply.getDefaultInstance()));
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<io.grpc.wyq.mycat.MycatRequest,
+      io.grpc.wyq.mycat.MycatReply> METHOD_HANDLE_TABLE =
+      io.grpc.MethodDescriptor.create(
+          io.grpc.MethodDescriptor.MethodType.UNARY,
+          generateFullMethodName(
+              "helloworld.Mycat", "handleTable"),
+          io.grpc.protobuf.ProtoUtils.marshaller(io.grpc.wyq.mycat.MycatRequest.getDefaultInstance()),
+          io.grpc.protobuf.ProtoUtils.marshaller(io.grpc.wyq.mycat.MycatReply.getDefaultInstance()));
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -93,6 +102,13 @@ public class MycatGrpc {
       asyncUnimplementedUnaryCall(METHOD_DEL_TABLE, responseObserver);
     }
 
+    /**
+     */
+    public void handleTable(io.grpc.wyq.mycat.MycatRequest request,
+        io.grpc.stub.StreamObserver<io.grpc.wyq.mycat.MycatReply> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_HANDLE_TABLE, responseObserver);
+    }
+
     @java.lang.Override public io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -109,6 +125,13 @@ public class MycatGrpc {
                 io.grpc.wyq.mycat.MycatRequest,
                 io.grpc.wyq.mycat.MycatReply>(
                   this, METHODID_DEL_TABLE)))
+          .addMethod(
+            METHOD_HANDLE_TABLE,
+            asyncUnaryCall(
+              new MethodHandlers<
+                io.grpc.wyq.mycat.MycatRequest,
+                io.grpc.wyq.mycat.MycatReply>(
+                  this, METHODID_HANDLE_TABLE)))
           .build();
     }
   }
@@ -149,6 +172,14 @@ public class MycatGrpc {
       asyncUnaryCall(
           getChannel().newCall(METHOD_DEL_TABLE, getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void handleTable(io.grpc.wyq.mycat.MycatRequest request,
+        io.grpc.stub.StreamObserver<io.grpc.wyq.mycat.MycatReply> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_HANDLE_TABLE, getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -184,6 +215,13 @@ public class MycatGrpc {
     public io.grpc.wyq.mycat.MycatReply delTable(io.grpc.wyq.mycat.MycatRequest request) {
       return blockingUnaryCall(
           getChannel(), METHOD_DEL_TABLE, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public io.grpc.wyq.mycat.MycatReply handleTable(io.grpc.wyq.mycat.MycatRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_HANDLE_TABLE, getCallOptions(), request);
     }
   }
 
@@ -223,10 +261,19 @@ public class MycatGrpc {
       return futureUnaryCall(
           getChannel().newCall(METHOD_DEL_TABLE, getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<io.grpc.wyq.mycat.MycatReply> handleTable(
+        io.grpc.wyq.mycat.MycatRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_HANDLE_TABLE, getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_ADD_TABLE = 0;
   private static final int METHODID_DEL_TABLE = 1;
+  private static final int METHODID_HANDLE_TABLE = 2;
 
   private static class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -253,6 +300,10 @@ public class MycatGrpc {
           serviceImpl.delTable((io.grpc.wyq.mycat.MycatRequest) request,
               (io.grpc.stub.StreamObserver<io.grpc.wyq.mycat.MycatReply>) responseObserver);
           break;
+        case METHODID_HANDLE_TABLE:
+          serviceImpl.handleTable((io.grpc.wyq.mycat.MycatRequest) request,
+              (io.grpc.stub.StreamObserver<io.grpc.wyq.mycat.MycatReply>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -272,7 +323,8 @@ public class MycatGrpc {
   public static io.grpc.ServiceDescriptor getServiceDescriptor() {
     return new io.grpc.ServiceDescriptor(SERVICE_NAME,
         METHOD_ADD_TABLE,
-        METHOD_DEL_TABLE);
+        METHOD_DEL_TABLE,
+        METHOD_HANDLE_TABLE);
   }
 
 }
