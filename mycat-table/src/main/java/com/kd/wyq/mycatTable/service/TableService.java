@@ -12,7 +12,7 @@ public interface TableService {
     String delTable(Table table);
 
     //修改表
-    String updateTable(Table table);
+    String updateTable(HandleTable table);
 
     //针对表字段的操作
     int handleTable(HandleTable table);

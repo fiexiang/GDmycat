@@ -106,8 +106,45 @@ public class TableServiceImpl implements TableService {
     }
 
     //修改表具体实现逻辑
-    public String updateTable(Table table) {
-        return null;
+    public String updateTable(HandleTable t) {
+
+        SshClient client = new SshUtil().getSftpClient();
+
+        Dom4jUtil dom4jUtil = new Dom4jUtil();
+
+        String tempath = dom4jUtil.updateTableToConfigureFile(t,client);
+
+        Table table = t.getTable();
+
+        String sql = "ALTER TABLE "+table.getName()+" RENAME "+t.getHandle();
+
+        JDBCUtil jdbcUtil = new JDBCUtil();
+
+        int result = jdbcUtil.DbUpdate(sql,table.getSchemaName(),new Object[]{});
+
+        System.out.println(result);
+
+        //备份原来的schema.xml文件
+        bak.backUpConfiguteFile(client);
+
+        //将临时目录中修改后的配置文件移动到mycat配置文件目录，覆盖原配置文件
+        copy.copyFile(tempath,client);
+
+        Boolean flag = sshUtil.restartMycat(client);
+
+        if (flag)
+            System.out.println("Mycat 重启完成");
+        try {
+
+            Thread.sleep(10000);
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return "Mycat 修改表功能已经完成";
     }
 
     public int handleTable(HandleTable table) {
@@ -121,35 +158,6 @@ public class TableServiceImpl implements TableService {
         int result = jdbcUtil.DbUpdate(sql,t.getSchemaName(),new Object[]{});
 
         return result;
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-
-       /* String rrr = "{\"handle\":\"alter table wyq_test drop index `time_index`\",\"table\":{\"name\":\"wyq_test\",\"schemaName\":\"FUJIAN\"}}";
-
-        MycatRequest request = MycatRequest.newBuilder().setParmsList(rrr).build(); //配置请求对象
-
-        Channel channel = ManagedChannelBuilder.forAddress("localhost",15001).usePlaintext(true).build(); //实例化通道，请求完成后会自动关闭
-
-        MycatGrpc.MycatBlockingStub blockingStub = MycatGrpc.newBlockingStub(channel);
-
-        MycatReply response = blockingStub.handleTable(request);//发送请求
-
-        System.out.println(response.getMessage()); //输出结果
-
-        Thread.sleep(5000);*/
-
-        Table table = new Table();
-        table.setSchemaName("FUJIAN");
-        table.setName("wyq_test");
-
-        HandleTable t = new HandleTable();
-        t.setTable(table);
-
-        String handle = "ALTER TABLE wyq_test ADD COLUMN age int(1) COMMENT '年龄'";
-        t.setHandle(handle);
-
-        System.out.println(JSON.toJSONString(t));
     }
 
 }

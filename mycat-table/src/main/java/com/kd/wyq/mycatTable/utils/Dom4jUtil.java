@@ -1,5 +1,6 @@
 package com.kd.wyq.mycatTable.utils;
 
+import com.kd.wyq.mycatTable.model.HandleTable;
 import com.kd.wyq.mycatTable.model.Table;
 import com.sshtools.j2ssh.SshClient;
 import org.dom4j.Document;
@@ -94,13 +95,33 @@ public class Dom4jUtil {
 
         Element rootElement = document.getRootElement();
 
-        List<Element> schemaList = rootElement.elements("schema");
-
         Element realSchema = this.getRealSchema(rootElement,table.getSchemaName());
 
         Node node = realSchema.selectSingleNode("table[@name='"+table.getName().toUpperCase()+"']");
 
         realSchema.remove(node);
+
+        write(document,tempPath);
+
+        return tempPath;
+
+    }
+
+    public String updateTableToConfigureFile(HandleTable t, SshClient client){//删除mycat配置文件中的指定table信息
+
+        String tempPath = this.copyMycatConfigureFileToTemp(client);
+
+        Document document = this.getDocument(tempPath);
+
+        Element rootElement = document.getRootElement();
+
+        Table table = t.getTable();
+
+        Element realSchema = this.getRealSchema(rootElement,table.getSchemaName());
+
+        Element node = (Element) realSchema.selectSingleNode("table[@name='"+table.getName().toUpperCase()+"']");
+
+        node.attribute("name").setValue(t.getHandle().toUpperCase());
 
         write(document,tempPath);
 

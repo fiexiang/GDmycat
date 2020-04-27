@@ -3,7 +3,7 @@ package com.kd.wyq.mycatTable.model;
 public class HandleTable {
 
     private Table table;
-    private String handle;
+    private String handleValue;
 
     public Table getTable() {
         return table;
@@ -14,10 +14,11 @@ public class HandleTable {
     }
 
     public String getHandle() {
-        return handle;
+        return handleValue;
     }
 
     public void setHandle(String handle) {
-        this.handle = handle;
+        this.handleValue = handle;
     }
+
 }

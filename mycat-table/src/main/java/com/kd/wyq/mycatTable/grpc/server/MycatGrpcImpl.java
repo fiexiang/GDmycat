@@ -62,4 +62,19 @@ public class MycatGrpcImpl extends MycatImplBase {
 
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void updateTable(MycatRequest request, StreamObserver<MycatReply> responseObserver) {
+        String handleTableText = request.getParmsList();
+
+        HandleTable table = JSON.parseObject(handleTableText,HandleTable.class);
+
+        String result = tableService.updateTable(table);
+
+        MycatReply reply = MycatReply.newBuilder().setMessage(result).build();
+
+        responseObserver.onNext(reply);
+
+        responseObserver.onCompleted();
+    }
 }
