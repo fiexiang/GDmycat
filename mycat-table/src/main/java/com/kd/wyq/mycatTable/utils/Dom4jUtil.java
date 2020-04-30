@@ -64,13 +64,26 @@ public class Dom4jUtil {
 
         String tableDataNode = table.getDataNode();
 
-        String tableRule = table.getRule();
-
         newTable.addAttribute("name",tableName);
+
+        if(table.getType() != null){
+
+            String type = table.getType();
+
+            newTable.addAttribute("type",type);
+
+        }
 
         newTable.addAttribute("dataNode",tableDataNode);
 
-        newTable.addAttribute("rule",tableRule);
+        if(table.getRule() != null){
+
+            String tableRule = table.getRule();
+
+            newTable.addAttribute("rule",tableRule);
+
+        }
+
 
         if(table.getPrimaryKey() != null){
 

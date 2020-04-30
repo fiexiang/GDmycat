@@ -4,9 +4,10 @@ public class Table {
 
     private String name;
     private String dataNode;
-    private String primaryKey;
+    private String primaryKey; //可以不写
     private String rule;
     private String schemaName;
+    private String type;
 
     public String getSchemaName() {
         return schemaName;
@@ -46,5 +47,13 @@ public class Table {
 
     public void setRule(String rule) {
         this.rule = rule;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
