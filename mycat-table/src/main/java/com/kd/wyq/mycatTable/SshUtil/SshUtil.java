@@ -4,6 +4,10 @@ import com.kd.wyq.mycatTable.utils.PropertiesKeyset;
 import com.sshtools.j2ssh.SshClient;
 import com.sshtools.j2ssh.authentication.AuthenticationProtocolState;
 import com.sshtools.j2ssh.authentication.PasswordAuthenticationClient;
+import com.sshtools.j2ssh.transport.ConsoleKnownHostsKeyVerification;
+import com.sshtools.j2ssh.transport.IgnoreHostKeyVerification;
+import com.sshtools.j2ssh.transport.InvalidHostFileException;
+import org.apache.xpath.operations.Bool;
 
 import java.io.IOException;
 import java.util.Map;
@@ -31,13 +35,13 @@ public class SshUtil {
 
         SshClient client = new SshClient();     //实例化ssh客户端对象
 
-        boolean flag = false;
+       boolean flag = false;
 
         try {
 
             String SSH_PORT = map.get("SSH_PORT").toString();
 
-            client.connect(ip, Integer.parseInt(SSH_PORT));          //建立ssh连接
+            client.connect(ip, Integer.parseInt(SSH_PORT),new IgnoreHostKeyVerification());          //建立ssh连接
 
             PasswordAuthenticationClient pwd = new PasswordAuthenticationClient();
 
@@ -87,5 +91,31 @@ public class SshUtil {
         return  result;
     }
 
+   /* public static void main(String[] args) throws IOException {
 
+        SshClient client = new SshClient();
+
+        ConsoleKnownHostsKeyVerification consoleKnownHostsKeyVerification = new ConsoleKnownHostsKeyVerification();
+
+        client.connect("192.100.1.17", 22,new IgnoreHostKeyVerification());          //建立ssh连接
+
+        PasswordAuthenticationClient pwd = new PasswordAuthenticationClient();
+
+        pwd.setUsername("root");
+
+        pwd.setPassword("root123");
+
+        int result = client.authenticate(pwd);
+
+        Boolean flag = false;
+
+        if(result == AuthenticationProtocolState.COMPLETE){
+
+            flag = true;
+
+        }
+
+        System.out.println(flag);
+    }
+*/
 }

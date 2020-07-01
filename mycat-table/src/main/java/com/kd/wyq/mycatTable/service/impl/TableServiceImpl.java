@@ -1,7 +1,5 @@
 package com.kd.wyq.mycatTable.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.kd.wyq.mycatTable.SshUtil.BackConfigureFile;
 import com.kd.wyq.mycatTable.SshUtil.CopyFile;
 import com.kd.wyq.mycatTable.SshUtil.SshUtil;
@@ -11,11 +9,6 @@ import com.kd.wyq.mycatTable.service.TableService;
 import com.kd.wyq.mycatTable.utils.Dom4jUtil;
 import com.kd.wyq.mycatTable.utils.JDBCUtil;
 import com.sshtools.j2ssh.SshClient;
-import io.grpc.Channel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.wyq.mycat.MycatGrpc;
-import io.grpc.wyq.mycat.MycatReply;
-import io.grpc.wyq.mycat.MycatRequest;
 
 public class TableServiceImpl implements TableService {
 
@@ -33,6 +26,12 @@ public class TableServiceImpl implements TableService {
         SshClient client = new SshUtil().getSftpClient();
 
         String tempath = dom4jUtil.addTableToConfigureFile(table,client);
+
+        if (tempath.equals("error")){
+
+            return "Mycat添加表失败，原因：所添加的表已经存在。";
+
+        }
 
         //备份原来的schema.xml文件
         bak.backUpConfiguteFile(client);
@@ -64,7 +63,7 @@ public class TableServiceImpl implements TableService {
 
         jdbcUtil.DbUpdate(sql,table.getSchemaName(),new Object[]{});
 
-        return "Mycat 添加表功能已经完成";
+        return "Mycat 添加表完成！";
     }
 
     //删除表具体实现逻辑

@@ -54,13 +54,28 @@ public class Dom4jUtil {
 
         Element rootElement = document.getRootElement();
 
-        List<Element> schemaList = rootElement.elements();
-
         Element realSchema = this.getRealSchema(rootElement,table.getSchemaName());
 
         Element newTable = realSchema.addElement("table");
 
         String tableName = table.getName().toUpperCase();
+
+        //是否含有添加表的判断逻辑
+        for (Element element : realSchema.elements()) {
+
+            String t = element.attribute("name").getValue(); //获取当前的已有table名称
+
+            if (tableName.equals(t)){
+
+                return "error";
+
+            }else {
+
+                continue;
+
+            }
+
+        }
 
         String tableDataNode = table.getDataNode();
 
@@ -94,7 +109,6 @@ public class Dom4jUtil {
         }
 
         write(document,tempPath);
-
 
         return tempPath;
 

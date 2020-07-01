@@ -5,6 +5,7 @@ package com.kd.wyq.mycatTable.utils;/*
 
 */
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +58,12 @@ public class JDBCUtil {
         System.out.println("=======开始建立数据库连接===========");
 
         try {
-            this.conn = DriverManager.getConnection(URL+schemaName,USER,PASSWORD);
+
+            System.out.println(URL);
+            System.out.println(USER);
+            System.out.println(PASSWORD);
+
+            this.conn = DriverManager.getConnection(URL,USER,PASSWORD);
 
             System.out.println("=======建立数据库连接完成===========");
 
